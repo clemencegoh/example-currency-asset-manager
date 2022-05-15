@@ -1,6 +1,7 @@
-import { Field, ObjectType, Int } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import {
   BeforeInsert,
+  BeforeUpdate,
   Column,
   Entity,
   OneToMany,
@@ -16,15 +17,15 @@ export class User {
   id: string;
 
   @Column()
-  @Field({ nullable: true })
+  @Field()
   username: string;
 
   @Column()
-  @Field({ nullable: true })
+  @Field()
   password: string;
 
-  @Column({ nullable: true })
-  @Field({ nullable: true })
+  @Column()
+  @Field()
   name: string;
 
   @Column({ nullable: true })
@@ -35,6 +36,7 @@ export class User {
   assets: CryptoAsset[];
 
   @BeforeInsert()
+  @BeforeUpdate()
   async hashPassword?(): Promise<void> {
     const salt = await bcrypt.genSalt();
     this.password = await bcrypt.hash(this.password, salt);

@@ -6,13 +6,16 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CryptoAssetService } from './crypto-asset.service';
 import { CreateCryptoAssetDto } from './dto/create-crypto-asset.dto';
 import { UpdateCryptoAssetDto } from './dto/update-crypto-asset.dto';
 
 @ApiTags('Assets')
+@UseGuards(JwtAuthGuard)
 @Controller('crypto-asset')
 export class CryptoAssetController {
   constructor(private readonly cryptoAssetService: CryptoAssetService) {}

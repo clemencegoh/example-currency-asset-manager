@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -13,7 +13,13 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    return await this.userRepository.save(createUserDto);
+    const existingUser = await this.findByUsername(createUserDto.username);
+    if (existingUser) {
+      throw new HttpException('User already exists', HttpStatus.CONFLICT);
+    }
+    // require instantiate before save to trigger beforeInsert
+    const newUser = new User(createUserDto);
+    return await this.userRepository.save(newUser);
   }
 
   async findAll() {
@@ -24,12 +30,19 @@ export class UserService {
     return await this.userRepository.findOne(id);
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const user = await this.userRepository.findOne({ id: id });
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
+    }
+    return this.userRepository.save({
+      ...user,
+      ...updateUserDto,
+    });
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} user`;
+  async remove(id: string) {
+    return await this.userRepository.delete({ id: id });
   }
 
   async findByName(name: string): Promise<User | undefined> {
@@ -37,6 +50,7 @@ export class UserService {
   }
 
   async findByUsername(username: string): Promise<User | undefined> {
-    return this.userRepository.findOne({ username: username });
+    const user = await this.userRepository.findOne({ username: username });
+    return user;
   }
 }
