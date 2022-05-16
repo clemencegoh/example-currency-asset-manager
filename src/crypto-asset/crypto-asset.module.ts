@@ -10,6 +10,6 @@ import { UserService } from 'src/user/user.service';
   controllers: [CryptoAssetController],
   providers: [CryptoAssetService, UserService],
   imports: [TypeOrmModule.forFeature([User, CryptoAsset])],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule.forFeature([CryptoAsset]), CryptoAssetService],
 })
 export class CryptoAssetModule {}

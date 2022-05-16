@@ -9,6 +9,6 @@ import { CryptoAsset } from 'src/crypto-asset/entities/crypto-asset.entity';
   controllers: [UserController],
   providers: [UserService],
   imports: [TypeOrmModule.forFeature([User, CryptoAsset])],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, UserService],
 })
 export class UserModule {}

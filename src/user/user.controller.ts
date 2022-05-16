@@ -56,4 +56,12 @@ export class UserController {
   remove(@Param('id') id: string) {
     return this.userService.remove(id);
   }
+
+  @Delete()
+  async implode() {
+    const allUsers = await this.userService.findAll();
+    for (const users of allUsers) {
+      this.userService.remove(users.id);
+    }
+  }
 }
