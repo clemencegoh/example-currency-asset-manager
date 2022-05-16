@@ -4,6 +4,7 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  JoinColumn,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -13,7 +14,7 @@ import { CryptoAsset } from 'src/crypto-asset/entities/crypto-asset.entity';
 @Entity()
 @ObjectType()
 export class User {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('uuid', { name: 'user_id' })
   id: string;
 
   @Column()
@@ -32,8 +33,20 @@ export class User {
   @Field({ nullable: true })
   email?: string;
 
-  @OneToMany(() => CryptoAsset, (cryptoAsset) => cryptoAsset.user)
+  // eager so we can see this on the find() call
+  @OneToMany(() => CryptoAsset, (cryptoAsset) => cryptoAsset.user, {
+    cascade: true,
+    eager: true,
+  })
   assets: CryptoAsset[];
+
+  addAsset(asset: CryptoAsset): User {
+    if (this.assets == null) {
+      this.assets = Array<CryptoAsset>();
+    }
+    this.assets.push(asset);
+    return this;
+  }
 
   @BeforeInsert()
   @BeforeUpdate()

@@ -7,11 +7,13 @@ import {
   Param,
   Delete,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @ApiTags('Users')
 @Controller('users')
@@ -34,6 +36,15 @@ export class UserController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(':id/assets')
+  findAllAssetsForUser(@Param('id') id: string, @Query('code') code: string) {
+    if (code && code !== '') {
+      return this.userService.findSpecificAssetForUser(id, code);
+    }
+    return this.userService.findAssetsForUser(id);
   }
 
   @Patch(':id')

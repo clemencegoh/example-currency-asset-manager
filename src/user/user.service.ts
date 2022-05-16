@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CryptoAsset } from 'src/crypto-asset/entities/crypto-asset.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -22,12 +23,22 @@ export class UserService {
     return await this.userRepository.save(newUser);
   }
 
+  async addNewAsset(userid: string, asset: CryptoAsset): Promise<User> {
+    let user = await this.userRepository.findOne(userid);
+    const newUser = user.addAsset(asset);
+    return this.userRepository.save(newUser);
+  }
+
   async findAll() {
     return await this.userRepository.find();
   }
 
   async findOne(id: string) {
-    return await this.userRepository.findOne(id);
+    const user = await this.userRepository.findOne(id);
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
+    }
+    return user;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
@@ -52,5 +63,20 @@ export class UserService {
   async findByUsername(username: string): Promise<User | undefined> {
     const user = await this.userRepository.findOne({ username: username });
     return user;
+  }
+
+  async findAssetsForUser(id: string): Promise<CryptoAsset[]> {
+    const user = await this.findOne(id);
+    return user.assets;
+  }
+
+  async findSpecificAssetForUser(
+    id: string,
+    assetCode: string,
+  ): Promise<CryptoAsset> {
+    const assets = await this.findAssetsForUser(id);
+    return assets.find(
+      (item) => item.assetCode.toLowerCase() === assetCode.toLowerCase(),
+    );
   }
 }
