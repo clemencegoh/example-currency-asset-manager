@@ -1,0 +1,403 @@
+{
+	"info": {
+		"_postman_id": "ba3d99c8-79f3-4d15-b972-7960f65281d7",
+		"name": "NestJS Sample",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"testuser1\",\r\n    \"password\": \"testpassword\",\r\n    \"name\": \"Test User\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Specific User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/275bf3e8-e220-40ce-9ae7-bc8436e59721",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"275bf3e8-e220-40ce-9ae7-bc8436e59721"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by username",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users?username=testuser1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "testuser1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/7336361e-358d-4b2b-ab0e-23b6c9ed7c4a",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"7336361e-358d-4b2b-ab0e-23b6c9ed7c4a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user details",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test User 1 Updated\",\r\n    \"email\": \"updated email\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users/32d2199d-8225-439a-a31f-a180ffebd984",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"32d2199d-8225-439a-a31f-a180ffebd984"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Log in",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"testuser1\",\r\n    \"password\": \"testpassword\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "JWT check",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/profile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Assets",
+			"item": [
+				{
+					"name": "Get assets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/crypto-assets",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"crypto-assets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create asset",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"assetName\": \"ethereum\",\r\n    \"assetCode\": \"ETH\",\r\n    \"amount\": \"12\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/crypto-assets",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"crypto-assets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Wipe assets",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/crypto-assets/all",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"crypto-assets",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assets for user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/275bf3e8-e220-40ce-9ae7-bc8436e59721/assets",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"275bf3e8-e220-40ce-9ae7-bc8436e59721",
+								"assets"
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "eth",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Asset",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"assetName\": \"ethereum\",\r\n    \"assetCode\": \"eth\",\r\n    \"amount\": \"180\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/crypto-assets",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"crypto-assets"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Smoke Test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/healthcheck",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"healthcheck"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "jwt_token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3NWJmM2U4LWUyMjAtNDBjZS05YWU3LWJjODQzNmU1OTcyMSIsIm5hbWUiOiJUZXN0IFVzZXIgMSIsImlhdCI6MTY1MjU4MjUyNiwiZXhwIjoxNjUyNTg2MTI2fQ.SmxOqoaVNPYdAMQtL0RV23ps_iiX3jd4FXg2QqRUIJ8"
+		}
+	]
+}
